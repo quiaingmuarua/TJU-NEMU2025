@@ -135,10 +135,8 @@ uClibc(https://www.uclibc.org/)是一个用于嵌入系统的C库。它需要的
 
 ## NEMU-PAL
 
-这是Wei Mingzhi的SDLPAL(https://github.com/CecilHarvey/sdlpal)的一个分叉。它是通过重构原始的SDLPAL，以及移植到NEMU而得到的。
 
-通过www.DeepL.com/Translator（免费版）翻译
 
-----
+这是天津大学2025级小学期和秋季学期的计算机系统基础课的实践课程
 
-这是天津大学2020级暑期学期(8.23—9.28)的计算机系统基础课的实践课程
+这个可以直接运行，能纯手搓出来离人类已经很远了
