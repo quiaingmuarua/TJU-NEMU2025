@@ -62,10 +62,6 @@ This is the simplified version of Nanos(http://cslab.nju.edu.cn/opsystem). It is
 
 This is a fork of the demo of NJU 2013 oslab0(the origin repository has been deleted, but we have a fork of it -- https://github.com/nju-ics/os-lab0). It is ported to NEMU.
 
-## NEMU-PAL
-
-This is a fork of Wei Mingzhi's SDLPAL(https://github.com/CecilHarvey/sdlpal). It is obtained by refactoring the original SDLPAL, as well as porting to NEMU.
-
 
 ------
 
@@ -140,3 +136,5 @@ uClibc(https://www.uclibc.org/)是一个用于嵌入系统的C库。它需要的
 这是天津大学2025级小学期和秋季学期的计算机系统基础课的实践课程
 
 这个可以直接运行，能纯手搓出来离人类已经很远了
+
+记得留个星哦
