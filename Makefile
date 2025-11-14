@@ -10,7 +10,10 @@ LIB_COMMON_DIR := lib-common
 LIBC_INC_DIR := $(LIB_COMMON_DIR)/uclibc/include
 LIBC_LIB_DIR := $(LIB_COMMON_DIR)/uclibc/lib
 LIBC := $(LIBC_LIB_DIR)/libc.a
-FLOAT := obj/$(LIB_COMMON_DIR)/FLOAT/FLOAT.a
+FLOAT_DIR := $(LIB_COMMON_DIR)/FLOAT
+FLOAT_SRC := $(FLOAT_DIR)/FLOAT.c
+FLOAT_OBJ := obj/$(FLOAT_DIR)/FLOAT.o
+FLOAT := obj/$(FLOAT_DIR)/FLOAT.a
 
 include config/Makefile.git
 include config/Makefile.build
@@ -22,9 +25,16 @@ all: nemu
 
 include nemu/Makefile.part
 include testcase/Makefile.part
-include lib-common/FLOAT/Makefile.part
 include kernel/Makefile.part
 include game/Makefile.part
+
+# 编译 FLOAT 库
+$(FLOAT_OBJ): $(FLOAT_SRC)
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -m32 -O2 -fno-builtin -I$(LIB_COMMON_DIR) $< -o $@
+
+$(FLOAT): $(FLOAT_OBJ)
+	ar rcs $@ $^
 
 nemu: $(nemu_BIN)
 testcase: $(testcase_BIN)
@@ -46,7 +56,10 @@ clean-kernel:
 clean-game:
 	-rm -rf obj/game 2> /dev/null
 
-clean: clean-cpp
+clean-float:
+	-rm -rf obj/$(FLOAT_DIR) 2> /dev/null
+
+clean: clean-cpp clean-float
 	-rm -rf obj 2> /dev/null
 	-rm -f *log.txt entry $(FLOAT) 2> /dev/null
 
