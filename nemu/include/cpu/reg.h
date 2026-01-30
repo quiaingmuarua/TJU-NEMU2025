@@ -70,6 +70,11 @@ typedef struct {
     uint16_t limit;
   } gdtr;
 
+  struct IDTR {
+    uint32_t base;
+    uint16_t limit;
+  } idtr;
+
   CR0 cr0;
 
   union {
@@ -110,6 +115,27 @@ typedef struct{
     uint32_t part2;
   };
 } Sreg_Descriptor;
+
+typedef struct {
+  union {
+    struct {
+      uint32_t offset_15_0 : 16;
+      uint32_t segment     : 16;
+    };
+    uint32_t part1;
+  };
+  union {
+    struct {
+      uint32_t pad0            : 8;
+      uint32_t type            : 4;
+      uint32_t system          : 1;
+      uint32_t privilege_level : 2;
+      uint32_t present         : 1;
+      uint32_t offset_31_16    : 16;
+    };
+    uint32_t part2;
+  };
+} GateDesc;
 
 extern Sreg_Descriptor *sreg_desc;
 

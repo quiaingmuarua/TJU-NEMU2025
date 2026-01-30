@@ -6,6 +6,8 @@
 #include "data-mov/cltd.h"
 #include "data-mov/lods.h"
 #include "data-mov/lgdt.h"
+#include "data-mov/lidt.h"
+#include "data-mov/cmov.h"
 #include "data-mov/push.h"
 #include "data-mov/pop.h"
 #include "data-mov/leave.h"
@@ -50,4 +52,3 @@
 #include "misc/misc.h"
 
 #include "special/special.h"
-
