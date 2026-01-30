@@ -80,7 +80,6 @@ entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
 
 run: $(nemu_BIN) $(USERPROG) entry
-	$(call git_commit, "run")
 ifeq ($(AUTO),1)
 	printf "c\nq\n" | $(nemu_BIN) $(USERPROG)
 else
@@ -88,15 +87,12 @@ else
 endif
 
 run-c: $(nemu_BIN) $(USERPROG) entry
-	$(call git_commit, "run-c")
 	printf "c\nq\n" | $(nemu_BIN) $(USERPROG)
 
 gdb: $(nemu_BIN) $(USERPROG) entry
-	$(call git_commit, "gdb")
 	gdb -s $(nemu_BIN) --args $(nemu_BIN) $(USERPROG)
 
 test: $(nemu_BIN) $(testcase_BIN) entry
-	$(call git_commit, "test")
 	bash test.sh $(testcase_BIN)
 
 submit: clean
