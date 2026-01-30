@@ -8,8 +8,8 @@
 /* Define HAS_SDL only if SDL is available */
 //#define HAS_SDL
 
-#define DEBUG
-#define LOG_FILE
+//#define DEBUG
+//#define LOG_FILE
 
 #include "debug.h"
 #include "macro.h"
