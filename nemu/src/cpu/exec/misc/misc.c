@@ -66,6 +66,39 @@ make_helper(sti) {
 	return 1;
 }
 
+make_helper(pusha) {
+	current_sreg = R_SS;
+	uint32_t temp_esp = reg_l(R_ESP);
+
+	reg_l(R_ESP) -= 4; swaddr_write(reg_l(R_ESP), 4, reg_l(R_EAX));
+	reg_l(R_ESP) -= 4; swaddr_write(reg_l(R_ESP), 4, reg_l(R_ECX));
+	reg_l(R_ESP) -= 4; swaddr_write(reg_l(R_ESP), 4, reg_l(R_EDX));
+	reg_l(R_ESP) -= 4; swaddr_write(reg_l(R_ESP), 4, reg_l(R_EBX));
+	reg_l(R_ESP) -= 4; swaddr_write(reg_l(R_ESP), 4, temp_esp);
+	reg_l(R_ESP) -= 4; swaddr_write(reg_l(R_ESP), 4, reg_l(R_EBP));
+	reg_l(R_ESP) -= 4; swaddr_write(reg_l(R_ESP), 4, reg_l(R_ESI));
+	reg_l(R_ESP) -= 4; swaddr_write(reg_l(R_ESP), 4, reg_l(R_EDI));
+
+	print_asm("pusha");
+	return 1;
+}
+
+make_helper(popa) {
+	current_sreg = R_SS;
+	reg_l(R_EDI) = swaddr_read(reg_l(R_ESP), 4); reg_l(R_ESP) += 4;
+	reg_l(R_ESI) = swaddr_read(reg_l(R_ESP), 4); reg_l(R_ESP) += 4;
+	reg_l(R_EBP) = swaddr_read(reg_l(R_ESP), 4); reg_l(R_ESP) += 4;
+	/* Skip ESP */
+	reg_l(R_ESP) += 4;
+	reg_l(R_EBX) = swaddr_read(reg_l(R_ESP), 4); reg_l(R_ESP) += 4;
+	reg_l(R_EDX) = swaddr_read(reg_l(R_ESP), 4); reg_l(R_ESP) += 4;
+	reg_l(R_ECX) = swaddr_read(reg_l(R_ESP), 4); reg_l(R_ESP) += 4;
+	reg_l(R_EAX) = swaddr_read(reg_l(R_ESP), 4); reg_l(R_ESP) += 4;
+
+	print_asm("popa");
+	return 1;
+}
+
 make_helper(lea) {
 	ModR_M m;
 	m.val = instr_fetch(eip + 1, 1);
