@@ -31,13 +31,15 @@ include kernel/Makefile.part
 include game/Makefile.part
 
 # 编译 FLOAT 库
+FLOAT_CFLAGS := -m32 -O2 -fno-builtin -fno-stack-protector -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -I$(LIB_COMMON_DIR)
+
 $(FLOAT_OBJ): $(FLOAT_SRC)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -m32 -O2 -fno-builtin -I$(LIB_COMMON_DIR) $< -o $@
+	$(CC) $(CFLAGS) $(FLOAT_CFLAGS) $< -o $@
 
 $(FLOAT_VFPRINTF_OBJ): $(FLOAT_VFPRINTF_SRC)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -m32 -O2 -fno-builtin -I$(LIB_COMMON_DIR) $< -o $@
+	$(CC) $(CFLAGS) $(FLOAT_CFLAGS) $< -o $@
 
 $(FLOAT): $(FLOAT_OBJ) $(FLOAT_VFPRINTF_OBJ)
 	ar rcs $@ $^
