@@ -82,14 +82,14 @@ entry: $(ENTRY)
 run: $(nemu_BIN) $(USERPROG) entry
 	$(call git_commit, "run")
 ifeq ($(AUTO),1)
-	printf "c\n" | $(nemu_BIN) $(USERPROG)
+	printf "c\nq\n" | $(nemu_BIN) $(USERPROG)
 else
 	$(nemu_BIN) $(USERPROG)
 endif
 
 run-c: $(nemu_BIN) $(USERPROG) entry
 	$(call git_commit, "run-c")
-	printf "c\n" | $(nemu_BIN) $(USERPROG)
+	printf "c\nq\n" | $(nemu_BIN) $(USERPROG)
 
 gdb: $(nemu_BIN) $(USERPROG) entry
 	$(call git_commit, "gdb")
