@@ -1,6 +1,6 @@
 ##### global settings #####
 
-.PHONY: nemu entry testcase kernel run gdb test submit clean
+.PHONY: nemu entry testcase kernel run run-c gdb test submit clean
 
 CC := gcc
 LD := ld
@@ -12,7 +12,9 @@ LIBC_LIB_DIR := $(LIB_COMMON_DIR)/uclibc/lib
 LIBC := $(LIBC_LIB_DIR)/libc.a
 FLOAT_DIR := $(LIB_COMMON_DIR)/FLOAT
 FLOAT_SRC := $(FLOAT_DIR)/FLOAT.c
+FLOAT_VFPRINTF_SRC := $(FLOAT_DIR)/FLOAT_vfprintf.c
 FLOAT_OBJ := obj/$(FLOAT_DIR)/FLOAT.o
+FLOAT_VFPRINTF_OBJ := obj/$(FLOAT_DIR)/FLOAT_vfprintf.o
 FLOAT := obj/$(FLOAT_DIR)/FLOAT.a
 
 include config/Makefile.git
@@ -33,7 +35,11 @@ $(FLOAT_OBJ): $(FLOAT_SRC)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -m32 -O2 -fno-builtin -I$(LIB_COMMON_DIR) $< -o $@
 
-$(FLOAT): $(FLOAT_OBJ)
+$(FLOAT_VFPRINTF_OBJ): $(FLOAT_VFPRINTF_SRC)
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -m32 -O2 -fno-builtin -I$(LIB_COMMON_DIR) $< -o $@
+
+$(FLOAT): $(FLOAT_OBJ) $(FLOAT_VFPRINTF_OBJ)
 	ar rcs $@ $^
 
 nemu: $(nemu_BIN)
@@ -73,7 +79,15 @@ entry: $(ENTRY)
 
 run: $(nemu_BIN) $(USERPROG) entry
 	$(call git_commit, "run")
+ifeq ($(AUTO),1)
+	printf "c\n" | $(nemu_BIN) $(USERPROG)
+else
 	$(nemu_BIN) $(USERPROG)
+endif
+
+run-c: $(nemu_BIN) $(USERPROG) entry
+	$(call git_commit, "run-c")
+	printf "c\n" | $(nemu_BIN) $(USERPROG)
 
 gdb: $(nemu_BIN) $(USERPROG) entry
 	$(call git_commit, "gdb")
