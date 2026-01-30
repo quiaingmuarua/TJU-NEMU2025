@@ -1,5 +1,6 @@
 #include "cpu/exec/helper.h"
 #include "cpu/decode/modrm.h"
+#include "device/port-io.h"
 
 make_helper(nop) {
 	print_asm("nop");
@@ -97,6 +98,62 @@ make_helper(popa) {
 
 	print_asm("popa");
 	return 1;
+}
+
+make_helper(in_b_dx) {
+	uint16_t port = reg_w(R_DX);
+	reg_b(R_AL) = pio_read(port, 1);
+	print_asm("inb (%%dx),%%al");
+	return 1;
+}
+
+make_helper(in_v_dx) {
+	uint16_t port = reg_w(R_DX);
+	reg_l(R_EAX) = pio_read(port, 4);
+	print_asm("inl (%%dx),%%eax");
+	return 1;
+}
+
+make_helper(out_b_dx) {
+	uint16_t port = reg_w(R_DX);
+	pio_write(port, 1, reg_b(R_AL));
+	print_asm("outb %%al,(%%dx)");
+	return 1;
+}
+
+make_helper(out_v_dx) {
+	uint16_t port = reg_w(R_DX);
+	pio_write(port, 4, reg_l(R_EAX));
+	print_asm("outl %%eax,(%%dx)");
+	return 1;
+}
+
+make_helper(in_b_imm) {
+	uint8_t port = instr_fetch(eip + 1, 1);
+	reg_b(R_AL) = pio_read(port, 1);
+	print_asm("inb $0x%x,%%al", port);
+	return 2;
+}
+
+make_helper(in_v_imm) {
+	uint8_t port = instr_fetch(eip + 1, 1);
+	reg_l(R_EAX) = pio_read(port, 4);
+	print_asm("inl $0x%x,%%eax", port);
+	return 2;
+}
+
+make_helper(out_b_imm) {
+	uint8_t port = instr_fetch(eip + 1, 1);
+	pio_write(port, 1, reg_b(R_AL));
+	print_asm("outb %%al,$0x%x", port);
+	return 2;
+}
+
+make_helper(out_v_imm) {
+	uint8_t port = instr_fetch(eip + 1, 1);
+	pio_write(port, 4, reg_l(R_EAX));
+	print_asm("outl %%eax,$0x%x", port);
+	return 2;
 }
 
 make_helper(lea) {
