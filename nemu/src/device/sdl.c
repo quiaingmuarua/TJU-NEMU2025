@@ -1,6 +1,6 @@
 #include "common.h"
 
-#ifdef HAS_DEVICE
+#if defined(HAS_DEVICE) && defined(HAS_SDL)
 
 #include "sdl.h"
 #include "vga.h"
@@ -101,4 +101,4 @@ void init_sdl() {
 	ret = setitimer(ITIMER_VIRTUAL, &it, NULL);
 	Assert(ret == 0, "Can not set timer");
 }
-#endif	/* HAS_DEVICE */
+#endif	/* HAS_DEVICE && HAS_SDL */

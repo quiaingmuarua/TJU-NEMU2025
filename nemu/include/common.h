@@ -4,7 +4,9 @@
 #define USE_RAMDISK
 
 /* You will define this macro in PA4 */
-//#define HAS_DEVICE
+#define HAS_DEVICE
+/* Define HAS_SDL only if SDL is available */
+//#define HAS_SDL
 
 #define DEBUG
 #define LOG_FILE

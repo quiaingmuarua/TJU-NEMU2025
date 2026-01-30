@@ -13,6 +13,9 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_pool();
 void init_ddr3();
+#ifdef HAS_DEVICE
+void init_device();
+#endif
 
 FILE *log_fp = NULL;
 
@@ -93,6 +96,11 @@ void restart() {
 	/* Set the initial instruction pointer. */
 	cpu.eip = ENTRY_START;
   cpu.eflags.val = 0x00000002;
+
+#ifdef HAS_DEVICE
+	/* Initialize devices (serial/timer/...) before execution. */
+	init_device();
+#endif
 
   /* Initialize the cahce */
   init_cache();

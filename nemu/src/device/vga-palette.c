@@ -1,6 +1,6 @@
 #include "common.h"
 
-#ifdef HAS_DEVICE
+#if defined(HAS_DEVICE) && defined(HAS_SDL)
 #include "vga.h"
 
 Color palette [] = {

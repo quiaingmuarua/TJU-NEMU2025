@@ -1,6 +1,6 @@
 #include "common.h"
 
-#ifdef HAS_DEVICE
+#if defined(HAS_DEVICE) && defined(HAS_SDL)
 
 #include "vga.h"
 #include "device/port-io.h"
@@ -110,4 +110,4 @@ void init_vga() {
 	vga_crtc_port_base = add_pio_map(VGA_CRTC_INDEX, 2, vga_crtc_io_handler);
 	vmem_base = add_mmio_map(0xa0000, 0x20000, vga_vmem_io_handler);
 }
-#endif	/* HAS_DEVICE */
+#endif	/* HAS_DEVICE && HAS_SDL */

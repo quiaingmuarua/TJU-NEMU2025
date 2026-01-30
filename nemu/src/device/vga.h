@@ -2,6 +2,7 @@
 #define __VGA_H__
 
 #include "common.h"
+#if defined(HAS_DEVICE) && defined(HAS_SDL)
 #include <SDL/SDL.h>
 
 #define SCREEN_ROW 400
@@ -27,4 +28,5 @@ typedef union {
 
 extern Color palette[];
 
+#endif
 #endif
