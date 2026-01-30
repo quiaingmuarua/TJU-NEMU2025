@@ -3,7 +3,9 @@ kernel_CFLAGS_EXTRA := -m32 -O2 -fno-builtin -fno-omit-frame-pointer -fno-stack-
 $(eval $(call make_common_rules,kernel,$(kernel_CFLAGS_EXTRA)))
 
 kernel_START_OBJ := $(kernel_OBJ_DIR)/start.o
-kernel_LDFLAGS := -m elf_i386 -e start -Ttext=0xc0100000 
+# Link address depends on whether paging is enabled in kernel/include/common.h
+KERNEL_TTEXT := $(shell grep -q '^[[:space:]]*#define[[:space:]]\+IA32_PAGE' kernel/include/common.h && echo 0xc0100000 || echo 0x00100000)
+kernel_LDFLAGS := -m elf_i386 -e start -Ttext=$(KERNEL_TTEXT)
 
 $(kernel_BIN): $(kernel_START_OBJ) \
 	$(filter-out $(kernel_START_OBJ), $(kernel_OBJS)) $(LIBC)
