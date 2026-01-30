@@ -24,7 +24,7 @@ typedef struct{
     bool validVal;
 } L1;
 
-L1 cache_L1[CACHE_L1_SET_NUM * CACHE_L1_WAY_NUM];
+extern L1 cache_L1[CACHE_L1_SET_NUM * CACHE_L1_WAY_NUM];
 
 void init_cache();
 
@@ -40,7 +40,7 @@ typedef struct{
     bool dirtyVal;
 } L2;
 
-L2 cache_L2[CACHE_L2_SET_NUM * CACHE_L2_WAY_NUM];
+extern L2 cache_L2[CACHE_L2_SET_NUM * CACHE_L2_WAY_NUM];
 
 void init_cache();
 

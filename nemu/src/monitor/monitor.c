@@ -1,6 +1,7 @@
 #include "nemu.h"
 #include "memory/cache.h"
 #include "memory/tlb.h"
+#include <string.h>
 
 #define ENTRY_START 0x100000
 
@@ -79,6 +80,8 @@ static void load_entry() {
 
 void restart() {
 	/* Perform some initialization to restart a program */
+	memset(&cpu, 0, sizeof(cpu));
+	current_sreg = R_DS;
 #ifdef USE_RAMDISK
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
@@ -104,6 +107,12 @@ void restart() {
   /* Initialize CS Register */
   cpu.cs.base = 0;
   cpu.cs.limit = 0xffffffff;
+  for (int i = 0; i < 6; i++) {
+    cpu.sreg[i].selector = 0;
+    cpu.sreg[i].attribute = 0;
+    cpu.sreg[i].base = 0;
+    cpu.sreg[i].limit = 0xffffffff;
+  }
 
 	/* Initialize DRAM. */
 	init_ddr3();

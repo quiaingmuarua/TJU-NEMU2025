@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "burst.h"
 
+TLB tlb[TLB_SIZE];
+
 void init_tlb() {
   int i;
   for (i = 0; i < TLB_SIZE; i++) {

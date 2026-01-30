@@ -4,6 +4,9 @@
 #include "burst.h"
 #include <stdlib.h>
 
+L1 cache_L1[CACHE_L1_SET_NUM * CACHE_L1_WAY_NUM];
+L2 cache_L2[CACHE_L2_SET_NUM * CACHE_L2_WAY_NUM];
+
 void init_cache() {
   int i;
   for (i = 0; i < CACHE_L1_SET_NUM * CACHE_L1_WAY_NUM; i++) {

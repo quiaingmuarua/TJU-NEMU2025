@@ -10,7 +10,7 @@ typedef struct{
     uint32_t tag, page_num;
 } TLB;
 
-TLB tlb[TLB_SIZE];
+extern TLB tlb[TLB_SIZE];
 
 void init_tlb();
 int read_tlb(uint32_t addr);

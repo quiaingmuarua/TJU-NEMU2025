@@ -3,6 +3,9 @@
 #include <time.h>
 
 CPU_state cpu;
+Sreg_Descriptor sreg_desc_storage;
+Sreg_Descriptor *sreg_desc = &sreg_desc_storage;
+uint8_t current_sreg = R_DS;
 
 const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
 const char *regsw[] = {"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"};

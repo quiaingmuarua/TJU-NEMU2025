@@ -11,7 +11,7 @@
 #define COL_WIDTH 10
 #define ROW_WIDTH 10
 #define BANK_WIDTH 3
-#define RANK_WIDTH (27 - COL_WIDTH - ROW_WIDTH - BANK_WIDTH)
+#define RANK_WIDTH (28 - COL_WIDTH - ROW_WIDTH - BANK_WIDTH)
 
 typedef union {
 	struct {

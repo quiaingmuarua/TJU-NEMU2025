@@ -15,6 +15,7 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg_id) {
 }
 
 hwaddr_t page_translate(lnaddr_t addr) {
+  static int warned = 0;
   if (cpu.cr0.protect_enable == 1 && cpu.cr0.paging == 1) {
     uint32_t dir = addr >> 22;
     uint32_t page = (addr >> 12) & 0x3ff;
@@ -27,17 +28,31 @@ hwaddr_t page_translate(lnaddr_t addr) {
     uint32_t dir_position = (dir_start << 12) + (dir << 2);
     Page_Descriptor first_content;
     first_content.val = hwaddr_read(dir_position, 4);
+    if (first_content.p != 1) {
+      Log("PDE not present: lnaddr=0x%08x dir=0x%x cr3=0x%08x eip=0x%08x",
+          addr, dir, cpu.cr3.val, cpu.eip);
+    }
     Assert(first_content.p == 1, "Page unavailable");
     uint32_t page_start = first_content.addr;
     uint32_t page_pos = (page_start << 12) + (page << 2);
     Page_Descriptor second_content;
     second_content.val =  hwaddr_read(page_pos, 4);
+    if (second_content.p != 1) {
+      Log("PTE not present: lnaddr=0x%08x dir=0x%x page=0x%x cr3=0x%08x eip=0x%08x",
+          addr, dir, page, cpu.cr3.val, cpu.eip);
+    }
     Assert(second_content.p == 1, "Page unavailable");
     uint32_t addr_start = second_content.addr;
     hwaddr_t hwaddr = (addr_start << 12) + bias;
     write_tlb(addr, hwaddr);
     return hwaddr;
   } else {
+    if (!warned && addr >= HW_MEM_SIZE) {
+      Log("paging off: lnaddr=0x%08x cr0=0x%08x cr3=0x%08x eip=0x%08x sreg=%u base=0x%08x",
+          addr, cpu.cr0.val, cpu.cr3.val, cpu.eip,
+          current_sreg, cpu.sreg[current_sreg].base);
+      warned = 1;
+    }
     return addr;
   }
 }

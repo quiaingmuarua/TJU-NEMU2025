@@ -111,13 +111,13 @@ typedef struct{
   };
 } Sreg_Descriptor;
 
-Sreg_Descriptor *sreg_desc;
+extern Sreg_Descriptor *sreg_desc;
 
 void sreg_load(uint8_t);
 
 extern CPU_state cpu;
 
-uint8_t current_sreg;
+extern uint8_t current_sreg;
 
 typedef struct{
   union{

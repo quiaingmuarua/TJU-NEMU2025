@@ -4,6 +4,9 @@
 
 static PDE updir[NR_PDE] align_to_page;
 static CR3 ucr3;
+static PTE uptables[NR_PDE][NR_PTE] align_to_page;
+static uint32_t free_pa = 0;
+static int nr_upt = 0;
 
 PDE* get_updir() { return updir; }
 uint32_t get_ucr3() { return ucr3.val; }
@@ -44,5 +47,40 @@ void init_mm() {
 			(PHY_MEM / PT_SIZE) * sizeof(PDE));
 
 	ucr3.val = (uint32_t)va_to_pa((uint32_t)updir) & ~0xfff;
+	free_pa = KMEM;
+	nr_upt = 0;
+}
+
+static PT alloc_pt() {
+	assert(nr_upt < NR_PDE);
+	PT pt = &uptables[nr_upt++];
+	memset(pt, 0, PAGE_SIZE);
+	return pt;
+}
+
+uint32_t mm_malloc(uint32_t vaddr, int len) {
+	uint32_t start = vaddr & ~PAGE_MASK;
+	uint32_t end = (vaddr + len + PAGE_MASK) & ~PAGE_MASK;
+
+	for (uint32_t addr = start; addr < end; addr += PAGE_SIZE) {
+		uint32_t pdir_idx = addr >> 22;
+		uint32_t pte_idx = (addr >> 12) & 0x3ff;
+		PT ptable;
+
+		if (!updir[pdir_idx].present) {
+			ptable = alloc_pt();
+			updir[pdir_idx].val = make_pde(va_to_pa((uint32_t)ptable));
+		} else {
+			ptable = (PT)pa_to_va(updir[pdir_idx].page_frame << 12);
+		}
+
+		if (!(*ptable)[pte_idx].present) {
+			assert(free_pa + PAGE_SIZE <= PHY_MEM);
+			(*ptable)[pte_idx].val = make_pte(free_pa);
+			free_pa += PAGE_SIZE;
+		}
+	}
+
+	return vaddr;
 }
 

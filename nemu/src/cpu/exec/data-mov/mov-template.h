@@ -1,4 +1,5 @@
 #include "cpu/exec/template-start.h"
+#include "memory/tlb.h"
 
 #define instr mov
 
@@ -42,6 +43,7 @@ make_helper(mov_cr2r) {
   case 3:
     reg_l(reg_num) = cpu.cr3.val;
     print_asm("mov CR3 %s", REG_NAME(reg_num));
+    break;
   default:
     break;
   }
@@ -58,9 +60,10 @@ make_helper(mov_r2cr) {
     print_asm("mov %s CR0", REG_NAME(reg_num));
     break;
   case 3:
-    //init_tlb();
     cpu.cr3.val = reg_l(reg_num);
+    init_tlb();
     print_asm("mov %s CR3", REG_NAME(reg_num));
+    break;
   default:
     break;
   }
