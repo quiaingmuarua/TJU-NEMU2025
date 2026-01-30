@@ -8,6 +8,55 @@
 !lib-common/uclibc/lib/*
 !kernel/src/memory/mm_malloc.o
 !testcase/user.ld
+
+obj/
+
+# Git
+.git/
+*.orig
+*.rej
+
+
+# C/C++ 编译输出
+*.exe
+*.out
+*.app
+*.obj
+*.so
+*.so.*
+*.dylib
+*.dll
+*.lib
+*.a
+*.la
+*.lo
+*.slo
+*.lai
+*.pdb
+*.ilk
+*.map
+*.tlog
 *.d
 *.o
-obj/
+
+
+# CMake 构建目录
+**/cmake-build-*/
+**/build/
+**/Build/
+**/out/
+**/build-gcc/
+**/cmake-build-debug/
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
+
+
+# JetBrains IDEs (IntelliJ IDEA, CLion, PyCharm, etc.)
+.idea/
+*.iws
+*.Identifier
+*.iml
+*.ipr
+out/
+
