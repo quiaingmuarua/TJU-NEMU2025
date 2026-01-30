@@ -74,7 +74,7 @@ clean: clean-cpp clean-float
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/add
+USERPROG := obj/game/game
 ENTRY := $(kernel_BIN)
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry

@@ -41,6 +41,7 @@
 #include "logic/test.h"
 #include "logic/setne.h"
 #include "logic/sete.h"
+#include "logic/seta.h"
 #include "logic/std.h"
 #include "logic/cld.h"
 
