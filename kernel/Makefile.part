@@ -10,4 +10,4 @@ kernel_LDFLAGS := -m elf_i386 -e start -Ttext=$(KERNEL_TTEXT)
 $(kernel_BIN): $(kernel_START_OBJ) \
 	$(filter-out $(kernel_START_OBJ), $(kernel_OBJS)) $(LIBC)
 	$(call make_command, $(LD), $(kernel_LDFLAGS), ld $@, $^)
-	$(call git_commit, "compile kernel")
+
