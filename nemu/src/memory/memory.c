@@ -82,7 +82,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-  assert(len == 1 || len == 2 || len == 4);
+  assert(len == 1 || len == 2 || len == 3 || len == 4);
   uint32_t cur_bias = addr & 0xfff;
   if (cur_bias + len - 1 > 0xfff) {
     //assert(0); depend on the mechine
@@ -100,7 +100,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-  assert(len == 1 || len == 2 || len == 4);
+  assert(len == 1 || len == 2 || len == 3 || len == 4);
   uint32_t cur_bias = addr & 0xfff;
   if (cur_bias + len - 1 > 0xfff) {
     //assert(0); depend on the mechine
@@ -116,7 +116,7 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 
 uint32_t swaddr_read(swaddr_t addr, size_t len) {
 #ifdef DEBUG
-  assert(len == 1 || len == 2 || len == 4);
+  assert(len == 1 || len == 2 || len == 3 || len == 4);
 #endif
   lnaddr_t lnaddr = seg_translate(addr, len, current_sreg);
   return lnaddr_read(lnaddr, len);
@@ -124,7 +124,7 @@ uint32_t swaddr_read(swaddr_t addr, size_t len) {
 
 void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
 #ifdef DEBUG
-  assert(len == 1 || len == 2 || len == 4);
+  assert(len == 1 || len == 2 || len == 3 || len == 4);
 #endif
   lnaddr_t lnaddr = seg_translate(addr, len, current_sreg);
   lnaddr_write(lnaddr, len, data);
