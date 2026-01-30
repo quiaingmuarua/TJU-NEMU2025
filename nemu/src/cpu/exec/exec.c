@@ -157,7 +157,7 @@ helper_fun opcode_table [256] = {
 /* 0xe8 */	call_i_v, jmp_i_v, ljmp, jmp_i_b,
 /* 0xec */	in_b_dx, in_v_dx, out_b_dx, out_v_dx,
 /* 0xf0 */	inv, inv, repnz, rep,
-/* 0xf4 */	inv, inv, group3_b, group3_v,
+/* 0xf4 */	hlt, inv, group3_b, group3_v,
 /* 0xf8 */	inv, inv, cli, sti,
 /* 0xfc */	cld, std, group4, group5
 };

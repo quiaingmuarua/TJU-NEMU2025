@@ -67,6 +67,12 @@ make_helper(sti) {
 	return 1;
 }
 
+make_helper(hlt) {
+	/* In NEMU, treat HLT as a no-op to keep execution going. */
+	print_asm("hlt");
+	return 1;
+}
+
 make_helper(pusha) {
 	current_sreg = R_SS;
 	uint32_t temp_esp = reg_l(R_ESP);
