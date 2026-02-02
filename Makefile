@@ -74,7 +74,7 @@ clean: clean-cpp clean-float
 
 ##### some convinient rules #####
 
-USERPROG := obj/game/game
+USERPROG := obj/nemu/nemu
 ENTRY := $(kernel_BIN)
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
